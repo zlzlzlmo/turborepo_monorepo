@@ -21,7 +21,7 @@ export const useAppShell = create(
       },
     }),
     {
-      name: "app_shell",
+      name: "app-shell",
     }
   )
 );
