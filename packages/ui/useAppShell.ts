@@ -1,4 +1,5 @@
 import create from "zustand";
+import { persist } from "zustand/middleware";
 
 type Store = {
   user: string | null;
@@ -7,13 +8,20 @@ type Store = {
   addToScore: (amount: number) => void;
 };
 
-export const useAppShell = create<Store>((set, get) => ({
-  user: null,
-  score: 0,
-  setUser(user) {
-    set(() => ({ user }));
-  },
-  addToScore() {
-    set((state) => ({ score: state.score + 1 }));
-  },
-}));
+export const useAppShell = create(
+  persist<Store>(
+    (set, _get) => ({
+      user: null,
+      score: 0,
+      setUser(user) {
+        set(() => ({ user }));
+      },
+      addToScore(amount) {
+        set((state) => ({ score: state.score + amount }));
+      },
+    }),
+    {
+      name: "app_shell",
+    }
+  )
+);
